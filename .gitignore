@@ -128,3 +128,43 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Ignore Sequelize configuration
+.sequelizerc
+
+# Ignore lock files
+package-lock.json
+yarn.lock
+
+# Ignore configuration files
+config/
+
+# Ignore OS generated files
+.DS_Store
+Thumbs.db
+
+# Ignore IDE specific files
+.vscode/
+
+# Ignore editor backup files
+*~
+*.swp
+
+# Ignore temporary files
+*.tmp
+
+# Ignore package manager directories
+/.pnp/
+.pnp.js
+
+# Ignore compiled JavaScript files
+# *.js
+# *.js.map
+
+# Ignore the python script for printing the project structure
+print_project.py
+print_project_content.py
+
+# Ignore others user files
+static/
+# todo.md
