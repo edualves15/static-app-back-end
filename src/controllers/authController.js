@@ -23,6 +23,15 @@ exports.login = (req, res) => {
   }
 };
 
+exports.logout = (req, res) => {
+  // Limpe o cookie 'token' no lado do cliente
+  res.clearCookie('token');
+
+  // Opcional: Invalide o token no lado do servidor (se necessário)
+
+  success(res, {}, 'Logout bem-sucedido');
+};
+
 exports.verifyToken = (req, res) => {
   try {
     const token = req.cookies.token;
