@@ -62,49 +62,91 @@ Lembre-se de não versionar o arquivo `.env` contendo suas configurações sens�
 
 Aqui estão alguns comandos úteis para gerenciar a imagem e o container Docker da sua aplicação:
 
-### Construir a Imagem Docker
+### Imagens Docker
+
+**Construir uma imagem a partir de um Dockerfile**
 ```bash
-docker build -t backend .
+docker build -t [IMAGE_NAME] .
 ```
 
-### Listar Imagens Docker
+**Listar imagens**
 ```bash
 docker images
 ```
 
-### Executar Containers Docker
+**Salvar uma imagem Docker em um arquivo tar**
 ```bash
-# Modo simples de execução do container sem especificar um nome
-docker run -d -p 3030:3030 backend
-
-# Modo de execução do container especificando um nome
-docker run -d -p 3030:3030 --name backend backend
-
-# Modo de execução do container passando variáveis de ambiente
-docker run -d -p 3030:3030 -e VAR1=valor1 -e VAR2=valor2 backend
+docker save -o [PATH_TO_SAVE_IMAGE.tar] [IMAGE_ID]
 ```
 
-### Listar Containers Docker
+**Carregar uma imagem Docker de um arquivo tar**
+```bash
+docker load -i [PATH_TO_LOAD_IMAGE.tar]
+```
+
+**Remover uma imagem Docker**
+```bash
+docker rmi [IMAGE_ID]
+```
+
+**Remover todas as imagens**
+```bash
+docker rmi $(docker images -q)
+```
+
+### Manipulação de contêineres
+
+**Listar todos os contêineres (incluindo os que estão parados)**
+```bash
+docker ps -a
+```
+
+**Listar contêineres em execução**
 ```bash
 docker ps
 ```
 
-### Ver Logs do Container
+**Iniciar um contêiner existente**
 ```bash
-docker logs backend
+docker start [CONTAINER_ID]
 ```
 
-### Parar o Container
+**Parar um contêiner em execução**
 ```bash
-docker stop backend
+docker stop [CONTAINER_ID]
 ```
 
-### Iniciar o Container
+**Parar todos os contêineres em execução**
 ```bash
-docker start backend
+docker stop $(docker ps -q)
 ```
 
-### Remover o Container
+**Remover um contêiner**
 ```bash
-docker rm backend
+docker rm [CONTAINER_ID]
+```
+
+**Remover todos os contêineres**
+```bash
+docker rm $(docker ps -a -q)
+```
+
+**Criar e executar um novo contêiner a partir de uma imagem sem especificar um nome**
+```bash
+docker run -d -p [HOST_PORT]:[CONTAINER_PORT] [IMAGE_NAME]
+```
+
+**Criar e executar um novo contêiner a partir de uma imagem, especificando um nome para o contêiner**
+```bash
+docker run -d -p [HOST_PORT]:[CONTAINER_PORT] --name [CONTAINER_NAME] [IMAGE_NAME]
+```
+
+**Criar e executar um novo contêiner a partir de uma imagem, passando variáveis de ambiente**
+```bash
+docker run -d -p [HOST_PORT]:[CONTAINER_PORT] -e VAR1=valor1 -e VAR2=valor2 [IMAGE_NAME]
+```
+
+**Criar e executar um novo contêiner a partir de uma imagem, montando um volume**
+```bash
+docker run -d -p [HOST_PORT]:[CONTAINER_PORT] -v [HOST_DIRECTORY]:[CONTAINER_DIRECTORY] [IMAGE_NAME]
 ```
