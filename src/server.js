@@ -5,13 +5,9 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 
-// Middlewares
-const authMiddleware = require('./src/middleware/authMiddleware');
-
-// Rotas
-const publicRoutes = require('./src/routes/publicItemRoutes');
-const privateRoutes = require('./src/routes/privateItemRoutes');
-const authRoutes = require('./src/routes/authRoutes');
+const publicRoutes = require('./routes/publicItemRoutes');
+const privateRoutes = require('./routes/privateItemRoutes');
+const authRoutes = require('./routes/authRoutes');
 
 // Inicializar o aplicativo Express
 const app = express();
@@ -31,18 +27,16 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 // Middleware para servir arquivos estáticos
-app.use(express.static(path.resolve(__dirname, 'static', 'dist')));
+app.use(express.static(path.resolve(__dirname, '..', 'static', 'dist')));
 
-// Rotas públicas
+// Rotas
 app.use('/api', authRoutes);
 app.use('/api', publicRoutes);
-
-// Rotas protegidas
-app.use('/api', authMiddleware, privateRoutes);
+app.use('/api', privateRoutes);
 
 // Middleware para capturar todas as rotas não tratadas e enviar index.html
 app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, 'static', 'dist', 'index.html'));
+  res.sendFile(path.resolve(__dirname, '..', 'static', 'dist', 'index.html'));
 });
 
 // Iniciar o servidor
