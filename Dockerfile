@@ -1,21 +1,24 @@
-# From base image node
+# Utilize a imagem base do Node.js 18 Alpine
 FROM node:18-alpine
 
-# Create app directory
+# Crie o diretório da aplicação
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-# Copying all the files from your file system to container file system
+# Copie o arquivo package.json para o container
 COPY package.json .
 
-# Install all dependencies
+# Instale as dependências
 RUN npm install
 
-# Copy other files too
-COPY ./ .
+# Copie o restante dos arquivos para o container
+COPY . .
 
-# Expose the port
-EXPOSE 3030
+# Defina a porta como uma variável de ambiente
+ENV PORT 3030
 
-# Command to run app when intantiate an image
-CMD ["npm","start"]
+# Exponha a porta
+EXPOSE $PORT
+
+# Comando para iniciar a aplicação
+CMD ["npm", "start"]
