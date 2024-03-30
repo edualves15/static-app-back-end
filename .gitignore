@@ -161,7 +161,7 @@ Thumbs.db
 # *.js
 # *.js.map
 
-public/
+# public/
 
 # Ignore the python script for printing the project structure
 print_project.py

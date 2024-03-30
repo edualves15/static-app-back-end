@@ -5,6 +5,10 @@ Este projeto implementa uma solução back-end robusta, desenvolvida com Node.js
 
 ## Deploy
 ```bash
+npm run deploy
+```
+Ou
+```bash
 gcloud builds submit --config=cloudbuild.yaml --substitutions=_COMMIT_SHA=$(git rev-parse HEAD) --region=southamerica-east1
 ```
 
