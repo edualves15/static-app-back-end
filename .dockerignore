@@ -1,5 +1,26 @@
-node_modules
+# Dependências
+**/node_modules
+
+# Arquivos de ambiente
 .env
+
+# Controle de versão
 .git
 .gitignore
+
+# Docker
 .dockerignore
+
+# Logs
+npm-debug.log
+yarn-error.log
+
+# Sistema
+.DS_Store
+
+# Cache de pacotes
+**/.npm
+**/.yarn
+
+# Configurações de editor
+.vscode

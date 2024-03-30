@@ -10,7 +10,8 @@ COPY package*.json ./
 # Instale as dependências
 RUN npm install
 
-# Copie o restante dos arquivos para o container
+# Copie os arquivos do projeto para o container
+# Isso inclui o diretório src e a pasta static na raiz do projeto
 COPY . .
 
 # Defina a porta como uma variável de ambiente
