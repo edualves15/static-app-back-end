@@ -1,40 +1,40 @@
 steps:
-  # Passo 1: Construir a imagem do Docker
+  # Passo 1: Construir a imagem do Docker para o backend do Hidrolab
   # Utiliza a imagem do Docker 'node:14' como base e executa o build da nossa aplicação.
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/$PROJECT_ID/my-app:$SHORT_SHA', '.']
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/hidrolab-backend:$COMMIT_SHA', '.']
     # $PROJECT_ID será substituído pelo ID do seu projeto no Google Cloud.
-    # $SHORT_SHA é uma variável que contém os primeiros 7 caracteres do SHA do commit atual,
+    # $COMMIT_SHA é uma variável que contém o SHA completo do commit atual,
     # tornando cada imagem única.
 
   # Passo 2: Enviar a imagem para o Google Container Registry
   # Após a construção, a imagem será enviada para o Container Registry no Google Cloud.
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/$PROJECT_ID/my-app:$SHORT_SHA']
+    args: ['push', 'gcr.io/$PROJECT_ID/hidrolab-backend:$COMMIT_SHA']
 
   # Passo 3: Fazer o deploy no Cloud Run
   # Este passo faz o deploy da imagem como um serviço no Cloud Run.
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
-    args: ['run', 'deploy', 'my-app-service', 
-           '--image', 'gcr.io/$PROJECT_ID/my-app:$SHORT_SHA', 
-           '--platform', 'managed', 
-           '--region', 'us-central1', 
-           '--allow-unauthenticated']
-    # 'my-app-service' é o nome do serviço no Cloud Run.
+    args: ['run', 'deploy', 'hidrolab-backend-service', 
+          '--image', 'gcr.io/$PROJECT_ID/hidrolab-backend:$COMMIT_SHA', 
+          '--platform', 'managed', 
+          '--region', 'southamerica-east1', 
+          '--allow-unauthenticated']
+    # 'hidrolab-backend-service' é o nome do serviço no Cloud Run.
     # '--platform managed' indica que o Cloud Run gerencia a infraestrutura.
     # '--region' especifica a região onde o serviço será hospedado.
     # '--allow-unauthenticated' permite acessos não autenticados ao serviço.
 
 images:
   # Especifica que a imagem construída deve ser armazenada no Container Registry.
-  - 'gcr.io/$PROJECT_ID/my-app:$SHORT_SHA'
+  - 'gcr.io/$PROJECT_ID/hidrolab-backend:$COMMIT_SHA'
 
 timeout: '1600s'
-# Especifica o tempo máximo para a execução do build. 
+# Especifica o tempo máximo para a execução do build.
 # Aumente se sua construção e deploy demoram mais do que o padrão.
 
 options:
   machineType: 'N1_HIGHCPU_8'
-  # Especifica o tipo de máquina a ser usada para o build. 
+  # Especifica o tipo de máquina a ser usada para o build.
   # Isso pode ser ajustado baseado nas necessidades de recursos da sua aplicação.

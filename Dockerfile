@@ -2,11 +2,10 @@
 FROM node:18-alpine
 
 # Crie o diretório da aplicação
-RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-# Copie o arquivo package.json para o container
-COPY package.json .
+# Copie o arquivo package.json e package-lock.json (se disponível) para o container
+COPY package*.json ./
 
 # Instale as dependências
 RUN npm install
