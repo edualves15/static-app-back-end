@@ -1,40 +1,37 @@
 steps:
-  # Passo 1: Construir a imagem do Docker para o backend do Hidrolab
-  # Este passo usa a imagem do Docker como base para construir a imagem da nossa aplicação,
-  # nomeando-a com o ID do projeto, o nome da aplicação e o SHA do commit (ou 'latest' como fallback).
+  # Passo 1: Docker Build
+  # Este passo constrói a imagem Docker do seu backend usando o Dockerfile no diretório atual.
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/$PROJECT_ID/hidrolab-backend:${COMMIT_SHA:-latest}', '.']
-    # $PROJECT_ID será substituído pelo ID do seu projeto no Google Cloud.
-    # ${COMMIT_SHA:-latest} usa o SHA do commit se disponível, ou 'latest' como valor padrão.
+    args: ['build', '-t',
+           'southamerica-east1-docker.pkg.dev/${PROJECT_ID}/hidrolab-docker-repo/hidrolab-backend:$COMMIT_SHA',
+           '.']
+    # A tag da imagem inclui o SHA do commit para garantir a unicidade e rastreabilidade.
 
-  # Passo 2: Enviar a imagem para o Google Container Registry
-  # Após construir, a imagem é enviada para o Container Registry do Google Cloud.
+  # Passo 2: Docker Push
+  # Este passo faz o push da imagem construída para o Google Artifact Registry.
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/$PROJECT_ID/hidrolab-backend:${COMMIT_SHA:-latest}']
+    args: ['push',
+           'southamerica-east1-docker.pkg.dev/${PROJECT_ID}/hidrolab-docker-repo/hidrolab-backend:$COMMIT_SHA']
 
-  # Passo 3: Fazer o deploy no Cloud Run
-  # Este passo utiliza o SDK do Cloud para fazer o deploy da imagem como um serviço no Cloud Run.
+  # Passo 3: Deploy no Cloud Run (se aplicável)
+  # Este passo opcional realiza o deploy da imagem no Cloud Run, substitua ou remova conforme sua necessidade.
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    entrypoint: gcloud
-    args: ['run', 'deploy', 'hidrolab-backend-service', 
-           '--image', 'gcr.io/$PROJECT_ID/hidrolab-backend:${COMMIT_SHA:-latest}', 
-           '--platform', 'managed', 
-           '--region', 'southamerica-east1', 
+    entrypoint: 'gcloud'
+    timeout: '240s' # Define um timeout para este passo.
+    args: ['run', 'deploy', 'hidrolab-backend-service',
+           '--image', 'southamerica-east1-docker.pkg.dev/${PROJECT_ID}/hidrolab-docker-repo/hidrolab-backend:$COMMIT_SHA',
+           '--platform', 'managed',
+           '--region', 'southamerica-east1',
            '--allow-unauthenticated']
-    # 'hidrolab-backend-service' é o nome do serviço no Cloud Run.
-    # '--platform managed' indica que o Cloud Run gerencia a infraestrutura.
-    # '--region' especifica a região onde o serviço será hospedado, neste caso, no Brasil.
-    # '--allow-unauthenticated' permite acessos não autenticados ao serviço.
+    # Adiciona variáveis de ambiente, se necessário, usando o campo 'env'.
+    env:
+      - 'CLOUDSDK_RUN_REGION=southamerica-east1'
 
 images:
-  # Especifica que a imagem construída deve ser armazenada no Container Registry.
-  - 'gcr.io/$PROJECT_ID/hidrolab-backend:${COMMIT_SHA:-latest}'
+  # Especifica que a imagem construída deve ser armazenada no Google Artifact Registry.
+  - 'southamerica-east1-docker.pkg.dev/${PROJECT_ID}/hidrolab-docker-repo/hidrolab-backend:$COMMIT_SHA'
 
-timeout: '1600s'
-# Especifica o tempo máximo para a execução do build. 
-# Aumente se sua construção e deploy demorarem mais do que o padrão.
+timeout: '1600s' # Aumente se sua construção e deploy demorarem mais que o padrão.
 
 options:
-  machineType: 'N1_HIGHCPU_8'
-  # Especifica o tipo de máquina a ser usada para o build. 
-  # Isso pode ser ajustado baseado nas necessidades de recursos da sua aplicação.
+  machineType: 'N1_HIGHCPU_8' # Ajuste conforme as necessidades de recursos da sua aplicação.
