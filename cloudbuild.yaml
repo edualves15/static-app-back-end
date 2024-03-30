@@ -1,37 +1,26 @@
 steps:
   # Passo 1: Docker Build
-  # Este passo constrói a imagem Docker do seu backend usando o Dockerfile no diretório atual.
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t',
-           'southamerica-east1-docker.pkg.dev/${PROJECT_ID}/hidrolab-docker-repo/hidrolab-backend:$COMMIT_SHA',
-           '.']
-    # A tag da imagem inclui o SHA do commit para garantir a unicidade e rastreabilidade.
+    args: 
+      - 'build'
+      - '-t'
+      - 'southamerica-east1-docker.pkg.dev/$PROJECT_ID/hidrolab-docker-repo/hidrolab-backend:${_COMMIT_SHA}'
+      - '.'
 
   # Passo 2: Docker Push
-  # Este passo faz o push da imagem construída para o Google Artifact Registry.
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push',
-           'southamerica-east1-docker.pkg.dev/${PROJECT_ID}/hidrolab-docker-repo/hidrolab-backend:$COMMIT_SHA']
+    args: 
+      - 'push'
+      - 'southamerica-east1-docker.pkg.dev/$PROJECT_ID/hidrolab-docker-repo/hidrolab-backend:${_COMMIT_SHA}'
 
-  # Passo 3: Deploy no Cloud Run (se aplicável)
-  # Este passo opcional realiza o deploy da imagem no Cloud Run, substitua ou remova conforme sua necessidade.
+  # Deploy to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'gcloud'
-    timeout: '240s' # Define um timeout para este passo.
-    args: ['run', 'deploy', 'hidrolab-backend-service',
-           '--image', 'southamerica-east1-docker.pkg.dev/${PROJECT_ID}/hidrolab-docker-repo/hidrolab-backend:$COMMIT_SHA',
-           '--platform', 'managed',
-           '--region', 'southamerica-east1',
-           '--allow-unauthenticated']
-    # Adiciona variáveis de ambiente, se necessário, usando o campo 'env'.
-    env:
-      - 'CLOUDSDK_RUN_REGION=southamerica-east1'
-
-images:
-  # Especifica que a imagem construída deve ser armazenada no Google Artifact Registry.
-  - 'southamerica-east1-docker.pkg.dev/${PROJECT_ID}/hidrolab-docker-repo/hidrolab-backend:$COMMIT_SHA'
-
-timeout: '1600s' # Aumente se sua construção e deploy demorarem mais que o padrão.
-
-options:
-  machineType: 'N1_HIGHCPU_8' # Ajuste conforme as necessidades de recursos da sua aplicação.
+    args: 
+      - 'run'
+      - 'deploy'
+      - 'hidrolab-backend-service'
+      - '--image=southamerica-east1-docker.pkg.dev/$PROJECT_ID/hidrolab-docker-repo/hidrolab-backend:${_COMMIT_SHA}'
+      - '--platform=managed'
+      - '--region=southamerica-east1'
+      - '--allow-unauthenticated'
