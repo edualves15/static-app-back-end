@@ -3,6 +3,11 @@
 
 Este projeto implementa uma solução back-end robusta, desenvolvida com Node.js e Express, servindo tanto conteúdo estático gerado pelo Vite quanto endpoints de API. O uso de Docker facilita a implantação e garante a consistência entre os ambientes de desenvolvimento, teste e produção.
 
+## Deploy
+```bash
+gcloud builds submit --config=cloudbuild.yaml --substitutions=_COMMIT_SHA=$(git rev-parse HEAD) --region=southamerica-east1
+```
+
 ## Tecnologias e Ferramentas
 
 - **Node.js e Express**: Utilizados para criar um servidor HTTP capaz de lidar com requisições e respostas.
