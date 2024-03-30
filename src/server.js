@@ -16,7 +16,7 @@ const port = process.env.PORT || 3030;
 // Configuração do CORS para permitir cookies em requisições cross-origin
 // Ajuste a URL de origem conforme necessário para o seu front-end
 app.use(cors({
-  // origin: 'http://localhost:5173', // Substitua pela URL do seu front-end
+  origin: 'http://localhost:5173', // Substitua pela URL do seu front-end
   credentials: true, // Permitir cookies
 }));
 
@@ -27,7 +27,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 // Middleware para servir arquivos estáticos
-app.use(express.static(path.resolve(__dirname, '..', 'static', 'dist')));
+// app.use(express.static(path.resolve(__dirname, '..', 'static', 'dist')));
 
 // Rotas
 app.use('/api', authRoutes);
@@ -35,9 +35,9 @@ app.use('/api', publicRoutes);
 app.use('/api', privateRoutes);
 
 // Middleware para capturar todas as rotas não tratadas e enviar index.html
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '..', 'static', 'dist', 'index.html'));
-});
+// app.get('*', (req, res) => {
+//   res.sendFile(path.resolve(__dirname, '..', 'static', 'dist', 'index.html'));
+// });
 
 // Iniciar o servidor
 app.listen(port, () => {
