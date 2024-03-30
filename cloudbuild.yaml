@@ -7,6 +7,17 @@ steps:
       - 'southamerica-east1-docker.pkg.dev/$PROJECT_ID/hidrolab-docker-repo/hidrolab-backend:${_COMMIT_SHA}'
       - '.'
 
+  # Diagnóstico: Listar conteúdo da pasta 'static'
+  - name: 'alpine'
+    entrypoint: '/bin/sh'
+    args:
+      - '-c'
+      - |
+        echo "Listando conteúdo de /usr/src/app/static/dist:"
+        ls -R /workspace/static/dist || echo "Pasta não encontrada."
+    id: 'List Static Files'
+    # Esta etapa tenta listar o conteúdo da pasta 'static/dist' no contexto do workspace do Cloud Build.
+
   # Passo 2: Docker Push
   - name: 'gcr.io/cloud-builders/docker'
     args: 

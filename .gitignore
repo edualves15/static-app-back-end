@@ -164,7 +164,3 @@ Thumbs.db
 # Ignore the python script for printing the project structure
 print_project.py
 print_project_content.py
-
-# Ignore others user files
-# static/
-# todo.md
