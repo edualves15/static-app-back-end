@@ -111,6 +111,11 @@ docker ps
 docker start [CONTAINER_ID]
 ```
 
+**Executar um Shell dentro de um Contêiner em Execução**
+```bash
+docker exec -it [CONTAINER_ID] sh
+```
+
 **Parar um contêiner em execução**
 ```bash
 docker stop [CONTAINER_ID]
