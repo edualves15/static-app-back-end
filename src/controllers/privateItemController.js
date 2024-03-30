@@ -7,7 +7,7 @@ const privateItemController = {
       const items = getAllPrivateItemsData();
       success(res, items, 'Itens privados encontrados com sucesso');
     } catch (err) {
-      error(res, 'Não foi possível obter os ítens privados', 500);
+      error(res, 'Não foi possível obter os itens privados', 500);
     }
   },
 
@@ -16,11 +16,11 @@ const privateItemController = {
       const id = parseInt(req.params.id);
       const item = getPrivateItemDataById(id);
       if (!item) {
-        return error(res, 'Ítem privado não encontrado', 404);
+        return error(res, 'Item privado não encontrado', 404);
       }
-      success(res, item, 'Ítem privado encontrado com sucesso');
+      success(res, item, 'Item privado encontrado com sucesso');
     } catch (err) {
-      error(res, 'Erro ao buscar o ítem privado', 500);
+      error(res, 'Erro ao buscar o item privado', 500);
     }
   },
 };

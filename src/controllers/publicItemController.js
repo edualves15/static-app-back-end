@@ -7,7 +7,7 @@ const publicItemController = {
       const items = getAllPublicItemsData();
       success(res, items, 'Itens públicos encontrados com sucesso');
     } catch (err) {
-      error(res, 'Não foi possível obter os ítens públicos', 500);
+      error(res, 'Não foi possível obter os itens públicos', 500);
     }
   },
 
@@ -16,11 +16,11 @@ const publicItemController = {
       const id = parseInt(req.params.id);
       const item = getPublicItemDataById(id);
       if (!item) {
-        return error(res, 'Ítem público não encontrado', 404);
+        return error(res, 'Item público não encontrado', 404);
       }
-      success(res, item, 'Ítem público encontrado com sucesso');
+      success(res, item, 'Item público encontrado com sucesso');
     } catch (err) {
-      error(res, 'Erro ao buscar o ítem público', 500);
+      error(res, 'Erro ao buscar o item público', 500);
     }
   },
 };
