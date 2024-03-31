@@ -16,7 +16,7 @@ exports.login = (req, res) => {
       secure: process.env.NODE_ENV === 'production',
       // sameSite: 'Lax' // Or 'Strict' or 'None' - choose wisely (see below)
     });
-    success(res, {}, 'Login bem-sucedido'); // Retorne uma resposta vazia (o token não vai na resposta)
+    success(res, { message: 'Login bem-sucedido', user: { name: user.name, email: user.email } });
   } catch (err) {
     console.error('Erro ao processar o login:', err);
     error(res, 'Erro ao processar o login', 500);

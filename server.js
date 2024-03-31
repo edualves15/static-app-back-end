@@ -26,22 +26,17 @@ app.use(bodyParser.json());
 // Middleware para configurar cookies
 app.use(cookieParser());
 
-// app.set('view engine', 'pug');
-
 // Middleware para servir arquivos estáticos
 app.use(express.static(path.resolve(__dirname, 'public')));
-
-// Use the built-in express middleware for serving static files from './public'
-// app.use('/', express.static('public'));
 
 // Rotas
 app.use('/api', authRoutes);
 app.use('/api', publicRoutes);
 app.use('/api', privateRoutes);
 
-app.get('/', (req, res) => {
-  res.render('index');
-});
+// app.get('/', (req, res) => {
+//   res.render('index');
+// });
 
 // Middleware para capturar todas as rotas não tratadas e enviar index.html
 app.get('*', (req, res) => {

@@ -1,7 +1,7 @@
 const users = [
-  { id: 1, username: "user1", password: "senha1", email: "user1@example.com" },
-  { id: 2, username: "user2", password: "senha2", email: "user2@example.com" },
-  { id: 3, username: "user3", password: "senha3", email: "user3@example.com" }
+  { id: 1, name: "Usuário 1", password: "123", email: "user1@email.com" },
+  { id: 2, name: "Usuário 2", password: "123", email: "user2@email.com" },
+  { id: 3, name: "Usuário 3", password: "123", email: "user3@email.com" }
 ];
 
 function findUserByEmail(email) {
